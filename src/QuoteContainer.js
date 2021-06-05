@@ -1,19 +1,18 @@
 import React from "react";
 import { useGlobalContext } from "./context";
-import { FaQuoteLeft, FaQuoteRight, FaTwitterSquare } from "react-icons/fa";
+import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 
 const QuoteContainer = () => {
-  const { quotes, index, getNewQuote } = useGlobalContext();
+  const { quotes, index, getNewQuote, getPreviousQuote, bigScreen } =
+    useGlobalContext();
   // console.log(index);
 
   let { text: quote, author } = quotes[index];
   // console.log(quote, author);
 
   const urlToTweet =
-    "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" +
-    encodeURIComponent(quote + author);
-
-  // console.log(urlToTweet);
+    "https://twitter.com/intent/tweet?hashtags=quotes&text=" +
+    encodeURIComponent(quote + "-" + author);
 
   return (
     <div className="container">
@@ -29,26 +28,50 @@ const QuoteContainer = () => {
 
         <div className="buttons">
           <div className="icons">
-            <a id="tweet-quote" href={urlToTweet} target="_blank">
-              <FaTwitterSquare />
+            <a
+              className="quote-btn"
+              href={urlToTweet}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Tweet This
             </a>
           </div>
 
-          <button id="new-quote" onClick={getNewQuote}>
-            New Quote
-          </button>
+          <div id="changeQuote-btn">
+            <button
+              id="prev-quote"
+              className="quote-btn"
+              onClick={getPreviousQuote}
+            >
+              {`${bigScreen ? "Previous Quote" : "Previous"}`}
+            </button>
+            <button id="new-quote" className="quote-btn" onClick={getNewQuote}>
+              {`${bigScreen ? " Next Quote" : "Next"}`}
+            </button>
+          </div>
         </div>
       </div>
       <footer>
         <a href="mailto:croy4744@gmail.com">
           <img
-            src="https://scontent.fdel11-2.fna.fbcdn.net/v/t1.6435-9/120576091_3360275404068855_8449544771510954797_n.jpg?_nc_cat=108&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=3Y7FtInK5EMAX9i7ybe&_nc_ht=scontent.fdel11-2.fna&oh=67d952f49a95ae178637ca9b3e9ca83f&oe=60AF82E5"
+            src="https://avatars.githubusercontent.com/u/77880663?v=4"
             alt="Chandan Roy"
           />
         </a>
         <p>
           <u>Designed by Chandan Roy on 29.04.2021</u>
         </p>{" "}
+        <p>
+          <a
+            href="https://github.com/croy47/random_quotes_machine"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {" "}
+            Source Code
+          </a>
+        </p>
       </footer>
     </div>
   );

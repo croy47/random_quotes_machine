@@ -12,7 +12,8 @@ const initialState = {
   loading: true,
   quotes: [],
   index: null,
-  error: false,
+  bigScreen: true,
+  previousIndex: null,
 };
 
 const AppProvider = ({ children }) => {
@@ -29,14 +30,26 @@ const AppProvider = ({ children }) => {
   //when page renders for the first time, quotes be fetched.
   useEffect(() => {
     fetchQuotes();
+    //checkScreenSize
+    let width = window.innerWidth;
+    if (width < 600) {
+      dispatch({ type: "SMALL_SCREEN_DETECTED" });
+    }
   }, []);
 
   const getNewQuote = () => {
+    console.log("test");
     dispatch({ type: "GET_QUOTE" });
   };
 
+  const getPreviousQuote = () => {
+    dispatch({ type: "GO_BACK_IN_TIME" });
+  };
+
   return (
-    <AppContext.Provider value={{ ...state, fetchQuotes, getNewQuote }}>
+    <AppContext.Provider
+      value={{ ...state, fetchQuotes, getNewQuote, getPreviousQuote }}
+    >
       {children}
     </AppContext.Provider>
   );
